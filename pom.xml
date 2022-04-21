@@ -1,140 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.6.6</version>
+	<relativePath/> <!-- lookup parent from repository -->
+</parent>
+<groupId>com.suny.soapApp</groupId>
+<artifactId>soapApp01</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<name>soapApp01</name>
+<description>Demo project for Spring Boot</description>
+<properties>
+	<java.version>11</java.version>
+	<cxf.version>3.5.1</cxf.version>
+	<spring.version>5.3.18</spring.version>
+</properties>
+<dependencies>
+	<dependency>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.4</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.suny</groupId>
-	<artifactId>soapApp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>soapApp01</name>
-	<description>Demo project for Spring Boot</description>
-	<properties>
-		<java.version>11</java.version>
-		<cxf.version>3.5.1</cxf.version>
-	</properties>
-	<dependencies>
-		<dependency>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<optional>true</optional>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<!-- cxf section -->
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-transports-http-jetty</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-ws-security</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.cxf</groupId>
+		<artifactId>cxf-rt-ws-policy</artifactId>
+		<version>${cxf.version}</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.apache.wss4j/wss4j -->
+	<!-- 		<dependency>
+		<groupId>org.apache.wss4j</groupId>
+		<artifactId>wss4j</artifactId>
+		<version>1.6.19</version>
+		<type>pom</type>
+	</dependency> -->
+	<!-- https://mvnrepository.com/artifact/org.apache.wss4j/wss4j-ws-security-common -->
+	<dependency>
+		<groupId>org.apache.wss4j</groupId>
+		<artifactId>wss4j-ws-security-common</artifactId>
+		<version>2.4.1</version>
+	</dependency>
+	<!-- jaxb -->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-oxm</artifactId>
+		<!-- check the correct spring version -->
+		<version>${spring.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.xml.bind</groupId>
+		<artifactId>jaxb-api</artifactId>
+		<version>2.3.0</version>
+	</dependency>
+	<dependency>
+		<groupId>com.sun.xml.bind</groupId>
+		<artifactId>jaxb-impl</artifactId>
+		<version>2.3.0</version>
+	</dependency>
+	<dependency>
+		<groupId>com.sun.xml.bind</groupId>
+		<artifactId>jaxb-core</artifactId>
+		<version>2.3.0</version>
+	</dependency>
+	
+</dependencies>
+
+<build>
+	<plugins>
+		<plugin>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<!-- cxf section -->
-		<dependency>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<configuration>
+				<excludes>
+					<exclude>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok</artifactId>
+					</exclude>
+				</excludes>
+			</configuration>
+		</plugin>
+		<plugin>
 			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<artifactId>cxf-codegen-plugin</artifactId>
 			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http-jetty</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-security</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-ws-policy</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.wss4j/wss4j -->
-		<!-- 		<dependency>
-			<groupId>org.apache.wss4j</groupId>
-			<artifactId>wss4j</artifactId>
-			<version>1.6.19</version>
-			<type>pom</type>
-		</dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.apache.wss4j/wss4j-ws-security-common -->
-		<dependency>
-			<groupId>org.apache.wss4j</groupId>
-			<artifactId>wss4j-ws-security-common</artifactId>
-			<version>2.4.1</version>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-codegen-plugin</artifactId>
-				<version>${cxf.version}</version>
-				<executions>
-					<execution>
-						<configuration>
-							<sourceRoot>
-                                ${basedir}/target/generated-sources
-                            </sourceRoot>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>
-                                        ${basedir}/src/main/resources/wsdl/B2BService.wsdl
-                                    </wsdl>
-									<wsdlLocation>classpath:B2BService.wsdl</wsdlLocation>
-									<extraargs>
-										<extraarg>-autoNameResolution</extraarg>
-									</extraargs>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-generated-source-directory</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${project.build.directory}/generated-sources</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+			<executions>
+				<execution>
+					<configuration>
+						<sourceRoot>
+							${basedir}/target/generated/src
+						</sourceRoot>
+						<wsdlOptions>
+							<wsdlOption>
+								<wsdl>
+									${basedir}/src/main/resources/wsdl/B2BService.wsdl
+								</wsdl>
+								<wsdlLocation>classpath:B2BService.wsdl</wsdlLocation>
+								<extraargs>
+									<extraarg>-autoNameResolution</extraarg>
+								</extraargs>
+							</wsdlOption>
+						</wsdlOptions>
+					</configuration>
+					<goals>
+						<goal>wsdl2java</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>jaxb2-maven-plugin</artifactId>
+			<version>2.5.0</version>
+			<executions>
+				<execution>
+					<id>xjc0</id>
+					<goals>
+						<goal>xjc</goal>
+					</goals>
+					<configuration>
+						<sources>
+							<source>${basedir}/src/main/resources/xsd/CustomerRegistrationMessage_V2.0.xsd</source>
+						</sources>
+						<packageName>com.postfinance.CustomerRegistration</packageName>
+						<outputDirectory>${basedir}/target/generated/src</outputDirectory>
+						<clearOutputDir>false</clearOutputDir>
+					</configuration>
+				</execution>
+				<!-- 					<execution>...</execution> -->
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>build-helper-maven-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>add-generated-source-directory</id>
+					<phase>generate-sources</phase>
+					<goals>
+						<goal>add-source</goal>
+					</goals>
+					<configuration>
+						<sources>
+							<source>${project.build.directory}/generated/src</source>
+						</sources>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
 
 </project>
