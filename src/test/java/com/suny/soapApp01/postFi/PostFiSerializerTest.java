@@ -1,8 +1,5 @@
 package com.suny.soapApp01.postFi;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import b2bservice.ebill.ebs.swisspost_ch.DownloadFile;
 import b2bservice.ebill.ebs.swisspost_ch.ObjectFactory;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class PostFiSerializerTest {
 
@@ -28,23 +27,12 @@ public class PostFiSerializerTest {
     private PostFiSerializer serializer;
 
     @Test
-    void testDownloadFile() throws IOException {
-        InputStream is = getClass().getClassLoader().getResourceAsStream(TEST_REG_FILE);
-        assertTrue(is.available() > 0);
-        ObjectFactory factory = new ObjectFactory();
-        assertDoesNotThrow(() -> {
-            DownloadFile file = factory.createDownloadFile();
-            file.setData(factory.createDownloadFileData(is.readAllBytes()));
-            file.setFilename(factory.createDownloadFileFilename("testRegistrations.xml"));
-        });
-
-    }
-
-    @Test
     void testRegistrationUnmarshal() {
         serializer = new PostFiSerializer();
         assertDoesNotThrow(() -> {
             InputStream is = getClass().getClassLoader().getResourceAsStream(TEST_REG_FILE);
+            assertNotNull(is);
+            assertTrue(is.available() > 0);
             ObjectFactory factory = new ObjectFactory();
             DownloadFile file = factory.createDownloadFile();
             file.setData(factory.createDownloadFileData(is.readAllBytes()));
@@ -53,7 +41,7 @@ public class PostFiSerializerTest {
             CustomerRegistrationMessage regMsgs = (CustomerRegistrationMessage) serializer.getRegistrationMarshaller()
                     .unmarshal(new StreamSource(new ByteArrayInputStream(file.getData().getValue())));
 
-            assertTrue(regMsgs.getCustomerRegistration().size() == 6);
+            assertEquals(6, regMsgs.getCustomerRegistration().size());
 
         });
     }
@@ -62,14 +50,16 @@ public class PostFiSerializerTest {
         serializer = new PostFiSerializer();
         assertDoesNotThrow(() -> {
             InputStream is = getClass().getClassLoader().getResourceAsStream(TEST_RRO_FILE);
+            assert is != null;
             assertTrue(is.available() > 0);
 
             Envelope env = (Envelope) serializer.getProcessProtocolMarshaller()
                     .unmarshal(new StreamSource(is));
 
-            assertTrue(env.getBody().getDeliveryDate().equals("20120522"));
-            assertTrue(env.getBody().getBillerID().equals("41101000000111111"));
-            assertTrue(env.getBody().getRejectedBills().getBill().size() == 1);
+            assertEquals(1, env.getBody().getDeliveryDate().size());
+            assertEquals("20120522", env.getBody().getDeliveryDate().get(0).getDate());
+            assertEquals("41101000000111111", env.getBody().getBillerID());
+            assertEquals(1, env.getBody().getRejectedBills().getBill().size());
 
         });
     }
