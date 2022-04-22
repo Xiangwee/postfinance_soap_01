@@ -96,7 +96,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
 	</dependency>
 	
 </dependencies>
-
 <build>
 	<plugins>
 		<plugin>
@@ -154,7 +153,35 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
 						<sources>
 							<source>${basedir}/src/main/resources/xsd/CustomerRegistrationMessage_V2.0.xsd</source>
 						</sources>
-						<packageName>com.postfinance.CustomerRegistration</packageName>
+						<packageName>com.postfinance.customer.registration</packageName>
+						<outputDirectory>${basedir}/target/generated/src</outputDirectory>
+						<clearOutputDir>false</clearOutputDir>
+					</configuration>
+				</execution>
+				<execution>
+					<id>xjc1</id>
+					<goals>
+						<goal>xjc</goal>
+					</goals>
+					<configuration>
+						<sources>
+							<source>${basedir}/src/main/resources/xsd/ybInvoice_V2.0.4.xsd</source>
+						</sources>
+						<packageName>com.postfinance.bill</packageName>
+						<outputDirectory>${basedir}/target/generated/src</outputDirectory>
+						<clearOutputDir>false</clearOutputDir>
+					</configuration>
+				</execution>
+				<execution>
+					<id>xjc2</id>
+					<goals>
+						<goal>xjc</goal>
+					</goals>
+					<configuration>
+						<sources>
+							<source>${basedir}/src/main/resources/xsd/ProcessProtocol.xsd</source>
+						</sources>
+						<packageName>com.postfinance.process</packageName>
 						<outputDirectory>${basedir}/target/generated/src</outputDirectory>
 						<clearOutputDir>false</clearOutputDir>
 					</configuration>

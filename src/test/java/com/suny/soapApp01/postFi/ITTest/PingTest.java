@@ -1,4 +1,4 @@
-package com.suny.soapApp01;
+package com.suny.soapApp01.postFi.ITTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,9 +19,9 @@ import b2bservice.ebill.swisspost.ch.B2BService;
 import b2bservice.ebill.swisspost.ch.B2BService_Service;
 
 @SpringBootTest
-class PostfinanceEbillITTests {
+public class PingTest {
 
-	@Value("#{systemEnvironment['postFiUsername']}")
+    @Value("#{systemEnvironment['postFiUsername']}")
     private String postFiUsername;
 
     @Value("#{systemEnvironment['postFiPassword']}")
@@ -35,14 +35,9 @@ class PostfinanceEbillITTests {
 	PostFiSerializer serializer;
 
 	@Test
-	void contextLoads() {
-	}
-
-	@Test
-	void publicvoidtestExecutePing() throws MalformedURLException {
+	void testExecutePing() throws MalformedURLException {
 		
-		URL wsdlURL = new URL(postFinanceWsdl);
-		B2BService_Service service = new B2BService_Service(wsdlURL, B2BService_Service.SERVICE);
+		B2BService_Service service = new B2BService_Service(new URL(postFinanceWsdl), B2BService_Service.SERVICE);
 		B2BService port = service.getUserNamePassword();
 
 		Map<String, Object> requestCtx = ((BindingProvider)port).getRequestContext();
@@ -59,5 +54,4 @@ class PostfinanceEbillITTests {
 		assertNotNull(result);
 		assertEquals(billerID, result);
 	}
-
 }
